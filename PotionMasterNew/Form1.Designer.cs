@@ -1,6 +1,6 @@
 ﻿namespace PotionMasterNew
 {
-    partial class Form1
+    partial class MainForm
     {
         /// <summary>
         ///  Required designer variable.
@@ -28,12 +28,108 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
-            this.Text = "Form1";
+            menuStrip = new MenuStrip();
+            fileToolStripMenuItem = new ToolStripMenuItem();
+            newGameToolStripMenuItem = new ToolStripMenuItem();
+            surrenderToolStripMenuItem = new ToolStripMenuItem();
+            exitGameToolStripMenuItem = new ToolStripMenuItem();
+            settingsToolStripMenuItem = new ToolStripMenuItem();
+            openSettingsToolStripMenuItem = new ToolStripMenuItem();
+            tableLayoutPanel = new TableLayoutPanel();
+            menuStrip.SuspendLayout();
+            SuspendLayout();
+            // 
+            // menuStrip
+            // 
+            menuStrip.ImageScalingSize = new Size(20, 20);
+            menuStrip.Items.AddRange(new ToolStripItem[] { fileToolStripMenuItem, settingsToolStripMenuItem });
+            menuStrip.Location = new Point(0, 0);
+            menuStrip.Name = "menuStrip";
+            menuStrip.Size = new Size(782, 28);
+            menuStrip.TabIndex = 0;
+            menuStrip.Text = "menuStrip1";
+            // 
+            // fileToolStripMenuItem
+            // 
+            fileToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { newGameToolStripMenuItem, surrenderToolStripMenuItem, exitGameToolStripMenuItem });
+            fileToolStripMenuItem.Name = "fileToolStripMenuItem";
+            fileToolStripMenuItem.Size = new Size(46, 24);
+            fileToolStripMenuItem.Text = "File";
+            // 
+            // newGameToolStripMenuItem
+            // 
+            newGameToolStripMenuItem.Name = "newGameToolStripMenuItem";
+            newGameToolStripMenuItem.Size = new Size(165, 26);
+            newGameToolStripMenuItem.Text = "New Game";
+            // 
+            // surrenderToolStripMenuItem
+            // 
+            surrenderToolStripMenuItem.Name = "surrenderToolStripMenuItem";
+            surrenderToolStripMenuItem.Size = new Size(165, 26);
+            surrenderToolStripMenuItem.Text = "Surrender";
+            // 
+            // exitGameToolStripMenuItem
+            // 
+            exitGameToolStripMenuItem.Name = "exitGameToolStripMenuItem";
+            exitGameToolStripMenuItem.Size = new Size(165, 26);
+            exitGameToolStripMenuItem.Text = "Exit Game";
+            // 
+            // settingsToolStripMenuItem
+            // 
+            settingsToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { openSettingsToolStripMenuItem });
+            settingsToolStripMenuItem.Name = "settingsToolStripMenuItem";
+            settingsToolStripMenuItem.Size = new Size(76, 24);
+            settingsToolStripMenuItem.Text = "Settings";
+            // 
+            // openSettingsToolStripMenuItem
+            // 
+            openSettingsToolStripMenuItem.Name = "openSettingsToolStripMenuItem";
+            openSettingsToolStripMenuItem.Size = new Size(194, 26);
+            openSettingsToolStripMenuItem.Text = "Open Settings...";
+            // 
+            // tableLayoutPanel
+            // 
+            tableLayoutPanel.ColumnCount = 4;
+            tableLayoutPanel.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 25F));
+            tableLayoutPanel.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 25F));
+            tableLayoutPanel.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 25F));
+            tableLayoutPanel.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 25F));
+            tableLayoutPanel.Dock = DockStyle.Fill;
+            tableLayoutPanel.Location = new Point(0, 28);
+            tableLayoutPanel.Name = "tableLayoutPanel";
+            tableLayoutPanel.RowCount = 1;
+            tableLayoutPanel.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
+            tableLayoutPanel.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
+            tableLayoutPanel.Size = new Size(782, 425);
+            tableLayoutPanel.TabIndex = 1;
+            // 
+            // MainForm
+            // 
+            AutoScaleDimensions = new SizeF(8F, 20F);
+            AutoScaleMode = AutoScaleMode.Font;
+            ClientSize = new Size(782, 453);
+            Controls.Add(tableLayoutPanel);
+            Controls.Add(menuStrip);
+            MainMenuStrip = menuStrip;
+            MinimumSize = new Size(500, 300);
+            Name = "MainForm";
+            StartPosition = FormStartPosition.CenterScreen;
+            Text = "Potion Master";
+            menuStrip.ResumeLayout(false);
+            menuStrip.PerformLayout();
+            ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
+
+        private MenuStrip menuStrip;
+        private ToolStripMenuItem fileToolStripMenuItem;
+        private ToolStripMenuItem newGameToolStripMenuItem;
+        private ToolStripMenuItem surrenderToolStripMenuItem;
+        private ToolStripMenuItem exitGameToolStripMenuItem;
+        private ToolStripMenuItem settingsToolStripMenuItem;
+        private ToolStripMenuItem openSettingsToolStripMenuItem;
+        private TableLayoutPanel tableLayoutPanel;
     }
 }
