@@ -116,7 +116,8 @@
             // 
             vialControl1.AllowDrop = true;
             vialControl1.Anchor = AnchorStyles.None;
-            vialControl1.GetSetInitialAmountOfSegments = 0;
+            vialControl1.AutoValidate = AutoValidate.EnablePreventFocusChange;
+            vialControl1.GetSetInitialAmountOfSegments = 1;
             vialControl1.GetSetMaximumAmountOfSegments = 4;
             vialControl1.GetSetSegments = null;
             vialControl1.Location = new Point(67, 122);
@@ -128,7 +129,7 @@
             // 
             vialControl2.AllowDrop = true;
             vialControl2.Anchor = AnchorStyles.None;
-            vialControl2.GetSetInitialAmountOfSegments = 0;
+            vialControl2.GetSetInitialAmountOfSegments = 1;
             vialControl2.GetSetMaximumAmountOfSegments = 4;
             vialControl2.GetSetSegments = null;
             vialControl2.Location = new Point(262, 122);
@@ -140,7 +141,7 @@
             // 
             vialControl3.AllowDrop = true;
             vialControl3.Anchor = AnchorStyles.None;
-            vialControl3.GetSetInitialAmountOfSegments = 0;
+            vialControl3.GetSetInitialAmountOfSegments = 1;
             vialControl3.GetSetMaximumAmountOfSegments = 4;
             vialControl3.GetSetSegments = null;
             vialControl3.Location = new Point(457, 122);
@@ -152,7 +153,7 @@
             // 
             vialControl4.AllowDrop = true;
             vialControl4.Anchor = AnchorStyles.None;
-            vialControl4.GetSetInitialAmountOfSegments = 0;
+            vialControl4.GetSetInitialAmountOfSegments = 1;
             vialControl4.GetSetMaximumAmountOfSegments = 4;
             vialControl4.GetSetSegments = null;
             vialControl4.Location = new Point(653, 122);
