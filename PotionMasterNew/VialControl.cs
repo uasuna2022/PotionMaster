@@ -12,48 +12,18 @@ namespace PotionMasterNew
 {
     public partial class VialControl : UserControl
     {
-        private int MaxSegments = 4;
-        public int GetSetMaximumAmountOfSegments
-        {
-            get { return MaxSegments; }
-            set
-            {
-                MaxSegments = value;
-                Invalidate();
-            }
-        }
+        public int MaxSegments = 4;
 
-        private int InitSegmentCount = 0;
-        public int GetSetInitialAmountOfSegments
-        {
-            get { return InitSegmentCount; }
-            set
-            {
-                InitSegmentCount = value;
-                Invalidate();
-            }
-        }
+        public int InitSegmentCount = 1;
 
-        private List<Color>? Segments = null;
-        public List<Color>? GetSetSegments
-        {
-            get { return Segments; }
-            set
-            {
-                Segments = value;
-                Invalidate();
-            }
-        }
+        public List<Color> Segments = new List<Color>();
         public VialControl()
         {
             this.AllowDrop = true;
-            //this.MouseDown += VialControl_MouseDown;
-
         }
 
         protected override void OnPaint(PaintEventArgs e)
         {
-            // base.OnPaint(e);
             Graphics g = e.Graphics;
             int sideMargin = 2;
             int top_bottomMargin = 2;
@@ -68,13 +38,10 @@ namespace PotionMasterNew
                     new Rectangle(sideMargin, segmentY, this.Width - 2 * sideMargin - 1, segmentHeight);
 
                 Color colorToFill = Color.Transparent;
-                if (i < InitSegmentCount && Segments != null)
+
+                if (i <= Segments.Count - 1)
                 {
                     colorToFill = Segments[i];
-                }
-                else if (Segments == null && i < InitSegmentCount)
-                {
-                    colorToFill = Color.Red; // hardcoded at the moment, in the future it will be randomized
                 }
 
                 if (colorToFill != Color.Transparent)
@@ -91,6 +58,58 @@ namespace PotionMasterNew
             using (Pen pen = new Pen(Color.Black))
             {
                 g.DrawRectangle(pen, 0, 0, 60, 180);
+            }
+        }
+        protected override void OnMouseDown(MouseEventArgs e)
+        {
+            base.OnMouseDown(e);
+
+            if (Segments.Count() > 0)
+            {
+                this.DoDragDrop(this, DragDropEffects.Move);
+            }
+        }
+
+        protected override void OnDragDrop(DragEventArgs e)
+        {
+            base.OnDragDrop(e);
+            VialControl ChosenVial = (VialControl)(e.Data!.GetData(typeof(VialControl)));
+
+            if (ChosenVial != null && ChosenVial != this && ChosenVial.Segments.Count != 0)
+            {
+                Color topColor = ChosenVial.Segments[ChosenVial.Segments.Count - 1];
+                int count = 1;
+                
+                for (int i = ChosenVial.Segments.Count - 2; i >= 0; i--)
+                {
+                    if (ChosenVial.Segments[i] != topColor) break;
+
+                    count++;
+                }
+
+                if (Segments.Count + count <= MaxSegments && (Segments.Count == 0 || Segments[Segments.Count - 1] == topColor))
+                {
+                    for (int i = 0; i < count; i++)
+                    {
+                        ChosenVial.Segments.RemoveAt(ChosenVial.Segments.Count() - 1);
+                        Segments.Add(topColor);
+                    }
+                }
+
+                ChosenVial.Invalidate();
+                Invalidate();
+            }
+        }
+
+        protected override void OnDragEnter(DragEventArgs e)
+        {
+            if (e.Data!.GetDataPresent(typeof(VialControl)))
+            {
+                e.Effect = DragDropEffects.Move;
+            }
+            else
+            {
+                e.Effect = DragDropEffects.None;
             }
         }
     }
