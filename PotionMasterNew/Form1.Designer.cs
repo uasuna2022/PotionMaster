@@ -36,12 +36,7 @@
             settingsToolStripMenuItem = new ToolStripMenuItem();
             openSettingsToolStripMenuItem = new ToolStripMenuItem();
             tableLayoutPanel = new TableLayoutPanel();
-            vialControl1 = new VialControl();
-            vialControl2 = new VialControl();
-            vialControl3 = new VialControl();
-            vialControl4 = new VialControl();
             menuStrip.SuspendLayout();
-            tableLayoutPanel.SuspendLayout();
             SuspendLayout();
             // 
             // menuStrip
@@ -89,66 +84,18 @@
             // openSettingsToolStripMenuItem
             // 
             openSettingsToolStripMenuItem.Name = "openSettingsToolStripMenuItem";
-            openSettingsToolStripMenuItem.Size = new Size(224, 26);
+            openSettingsToolStripMenuItem.Size = new Size(194, 26);
             openSettingsToolStripMenuItem.Text = "Open Settings...";
             openSettingsToolStripMenuItem.Click += openSettingsToolStripMenuItem_Click;
             // 
             // tableLayoutPanel
             // 
-            tableLayoutPanel.ColumnCount = 4;
-            tableLayoutPanel.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 25F));
-            tableLayoutPanel.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 25F));
-            tableLayoutPanel.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 25F));
-            tableLayoutPanel.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 25F));
-            tableLayoutPanel.Controls.Add(vialControl1, 0, 0);
-            tableLayoutPanel.Controls.Add(vialControl2, 1, 0);
-            tableLayoutPanel.Controls.Add(vialControl3, 2, 0);
-            tableLayoutPanel.Controls.Add(vialControl4, 3, 0);
+            tableLayoutPanel.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 20F));
             tableLayoutPanel.Dock = DockStyle.Fill;
             tableLayoutPanel.Location = new Point(0, 28);
             tableLayoutPanel.Name = "tableLayoutPanel";
-            tableLayoutPanel.RowCount = 1;
-            tableLayoutPanel.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
-            tableLayoutPanel.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
             tableLayoutPanel.Size = new Size(782, 425);
             tableLayoutPanel.TabIndex = 1;
-            // 
-            // vialControl1
-            // 
-            vialControl1.AllowDrop = true;
-            vialControl1.Anchor = AnchorStyles.None;
-            vialControl1.AutoValidate = AutoValidate.EnablePreventFocusChange;
-            vialControl1.Location = new Point(67, 122);
-            vialControl1.Name = "vialControl1";
-            vialControl1.Size = new Size(61, 181);
-            vialControl1.TabIndex = 0;
-            // 
-            // vialControl2
-            // 
-            vialControl2.AllowDrop = true;
-            vialControl2.Anchor = AnchorStyles.None;
-            vialControl2.Location = new Point(262, 122);
-            vialControl2.Name = "vialControl2";
-            vialControl2.Size = new Size(61, 181);
-            vialControl2.TabIndex = 1;
-            // 
-            // vialControl3
-            // 
-            vialControl3.AllowDrop = true;
-            vialControl3.Anchor = AnchorStyles.None;
-            vialControl3.Location = new Point(457, 122);
-            vialControl3.Name = "vialControl3";
-            vialControl3.Size = new Size(61, 181);
-            vialControl3.TabIndex = 2;
-            // 
-            // vialControl4
-            // 
-            vialControl4.AllowDrop = true;
-            vialControl4.Anchor = AnchorStyles.None;
-            vialControl4.Location = new Point(653, 122);
-            vialControl4.Name = "vialControl4";
-            vialControl4.Size = new Size(61, 181);
-            vialControl4.TabIndex = 3;
             // 
             // MainForm
             // 
@@ -163,9 +110,9 @@
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Potion Master";
             Load += MainForm_Load;
+            Resize += MainForm_Resize;
             menuStrip.ResumeLayout(false);
             menuStrip.PerformLayout();
-            tableLayoutPanel.ResumeLayout(false);
             ResumeLayout(false);
             PerformLayout();
         }
@@ -180,9 +127,5 @@
         private ToolStripMenuItem settingsToolStripMenuItem;
         private ToolStripMenuItem openSettingsToolStripMenuItem;
         private TableLayoutPanel tableLayoutPanel;
-        private VialControl vialControl1;
-        private VialControl vialControl2;
-        private VialControl vialControl3;
-        private VialControl vialControl4;
     }
 }

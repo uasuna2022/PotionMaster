@@ -33,7 +33,7 @@ namespace PotionMasterNew
 
             for (int i = 0; i < MaxSegments; i++)
             {
-                int segmentY = this.Height - (i + 1) * segmentHeight - top_bottomMargin - i * segmentMargin;
+                int segmentY = this.Height - (i + 1) * segmentHeight - 2 * top_bottomMargin - i * segmentMargin;
                 Rectangle segmentRectangle = 
                     new Rectangle(sideMargin, segmentY, this.Width - 2 * sideMargin - 1, segmentHeight);
 
@@ -57,7 +57,7 @@ namespace PotionMasterNew
 
             using (Pen pen = new Pen(Color.Black))
             {
-                g.DrawRectangle(pen, 0, 0, 60, 180);
+                g.DrawRectangle(pen, 0, 0, this.Width - 1, this.Height - 1);
             }
         }
         protected override void OnMouseDown(MouseEventArgs e)
