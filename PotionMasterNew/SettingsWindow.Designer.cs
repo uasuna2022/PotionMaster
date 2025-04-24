@@ -203,11 +203,11 @@
             vialsCountNumericUpDown.Anchor = AnchorStyles.None;
             vialsCountNumericUpDown.Location = new Point(117, 159);
             vialsCountNumericUpDown.Maximum = new decimal(new int[] { 25, 0, 0, 0 });
-            vialsCountNumericUpDown.Minimum = new decimal(new int[] { 4, 0, 0, 0 });
+            vialsCountNumericUpDown.Minimum = new decimal(new int[] { 5, 0, 0, 0 });
             vialsCountNumericUpDown.Name = "vialsCountNumericUpDown";
             vialsCountNumericUpDown.Size = new Size(150, 27);
             vialsCountNumericUpDown.TabIndex = 1;
-            vialsCountNumericUpDown.Value = new decimal(new int[] { 4, 0, 0, 0 });
+            vialsCountNumericUpDown.Value = new decimal(new int[] { 5, 0, 0, 0 });
             vialsCountNumericUpDown.ValueChanged += vialsCountNumericUpDown_ValueChanged;
             // 
             // difficultyComboBox

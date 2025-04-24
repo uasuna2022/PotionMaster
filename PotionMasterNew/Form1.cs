@@ -182,8 +182,30 @@ namespace PotionMasterNew
             ApplyColours(this, backgroundColor, textColor, buttonColor);
 
             menuStrip.BackColor = accentColor;
-            menuStrip.ForeColor = Color.Black;
+            menuStrip.ForeColor = textColor;
+            foreach (ToolStripMenuItem tsmi in menuStrip.Items)
+                StyleMenuItemRecursive(tsmi, accentColor, textColor);
+
         }
+        private void StyleMenuItemRecursive(ToolStripMenuItem item, Color backgroundColor, Color textColor)
+        {
+            item.BackColor = backgroundColor;
+            item.ForeColor = textColor;
+
+            item.DropDown.BackColor = backgroundColor;
+            item.DropDown.ForeColor = textColor;
+
+            if (item.DropDown is ToolStripDropDownMenu tsddm)
+            {
+                tsddm.ShowImageMargin = false;
+            }
+
+            foreach (ToolStripItem child in item.DropDownItems)
+            {
+                if (child is ToolStripMenuItem tsmi) StyleMenuItemRecursive(tsmi, backgroundColor, textColor);
+            }
+        }
+
 
         private void ApplyColours(Control currentControl, Color backgroundColor, Color textColor, Color buttonColor)
         {
