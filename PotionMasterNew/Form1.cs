@@ -1,3 +1,5 @@
+using System.Collections.Specialized;
+
 namespace PotionMasterNew
 {
     public partial class MainForm : Form
@@ -8,7 +10,7 @@ namespace PotionMasterNew
             InitializeComponent();
         }
 
-        private void BuildVialGrid(int vialCount, int maxSegments)
+        private void BuildVialGrid(decimal vialCount, decimal maxSegments)
         {
             tableLayoutPanel.SuspendLayout();
             tableLayoutPanel.Controls.Clear();
@@ -16,8 +18,8 @@ namespace PotionMasterNew
             tableLayoutPanel.RowStyles.Clear();
             Vials.Clear();
 
-            int numberOfColumns = Math.Min(7, vialCount);
-            int numberOfRows = (vialCount % 7 == 0) ? vialCount / 7 : vialCount / 7 + 1;
+            int numberOfColumns = Math.Min(7, (int)vialCount);
+            int numberOfRows = ((int)vialCount % 7 == 0) ? (int)vialCount / 7 : (int)vialCount / 7 + 1;
             tableLayoutPanel.ColumnCount = numberOfColumns;
             tableLayoutPanel.RowCount = numberOfRows;
 
@@ -35,7 +37,7 @@ namespace PotionMasterNew
                 VialControl newVial = new VialControl();
                 newVial.Anchor = AnchorStyles.None;
                 newVial.Size = new Size(61, 180);
-                newVial.MaxSegments = maxSegments;
+                newVial.MaxSegments = (int)maxSegments;
 
                 int row = i / numberOfColumns;
                 int col = i % numberOfColumns;
@@ -48,9 +50,7 @@ namespace PotionMasterNew
 
         private void MainForm_Load(object sender, EventArgs e)
         {
-            int vialCount = 16;
-            int maxSegments = 4;
-            BuildVialGrid(vialCount, maxSegments);
+            BuildVialGrid(Properties.Settings.Default.VialsCount, Properties.Settings.Default.SegmentsCount);
             
             List<Color> possibleColors = new List<Color>();
             possibleColors.Add(Color.Red);
@@ -72,10 +72,10 @@ namespace PotionMasterNew
 
             foreach (VialControl vial in Vials)
             {
-                vial.MaxSegments = 5;
+                vial.MaxSegments = (int)Properties.Settings.Default.SegmentsCount;
             }
 
-            for (int i = 1; i <= vialCount * 3; i++)
+            for (int i = 1; i <= Properties.Settings.Default.VialsCount * 3; i++)
             {
                 int numberOfVial = random.Next(0, Vials.Count);
                 int numberOfColor = random.Next(0, activeRandomColors.Count);
@@ -90,7 +90,12 @@ namespace PotionMasterNew
         private void openSettingsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             SettingsWindow settingsWindow = new SettingsWindow();
-            settingsWindow.Show();
+            settingsWindow.ShowDialog();
+
+            if (settingsWindow.ChangesApplied)
+            {
+                MainForm_Load(sender, e);
+            }
         }
 
         private void MainForm_Resize(object sender, EventArgs e)

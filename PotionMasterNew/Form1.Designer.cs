@@ -90,7 +90,6 @@
             // 
             // tableLayoutPanel
             // 
-            tableLayoutPanel.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 20F));
             tableLayoutPanel.Dock = DockStyle.Fill;
             tableLayoutPanel.Location = new Point(0, 28);
             tableLayoutPanel.Name = "tableLayoutPanel";

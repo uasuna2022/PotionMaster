@@ -94,6 +94,7 @@
             cancelButton.TabIndex = 0;
             cancelButton.Text = "Cancel";
             cancelButton.UseVisualStyleBackColor = true;
+            cancelButton.Click += cancelButton_Click;
             // 
             // OKButton
             // 
@@ -104,6 +105,7 @@
             OKButton.TabIndex = 1;
             OKButton.Text = "OK";
             OKButton.UseVisualStyleBackColor = true;
+            OKButton.Click += OKButton_Click;
             // 
             // LableTableLayoutPanel
             // 
@@ -194,6 +196,7 @@
             segmentsCountNumericUpDown.Size = new Size(150, 27);
             segmentsCountNumericUpDown.TabIndex = 0;
             segmentsCountNumericUpDown.Value = new decimal(new int[] { 2, 0, 0, 0 });
+            segmentsCountNumericUpDown.ValueChanged += segmentsCountNumericUpDown_ValueChanged;
             // 
             // vialsCountNumericUpDown
             // 
@@ -205,6 +208,7 @@
             vialsCountNumericUpDown.Size = new Size(150, 27);
             vialsCountNumericUpDown.TabIndex = 1;
             vialsCountNumericUpDown.Value = new decimal(new int[] { 4, 0, 0, 0 });
+            vialsCountNumericUpDown.ValueChanged += vialsCountNumericUpDown_ValueChanged;
             // 
             // difficultyComboBox
             // 
@@ -215,6 +219,7 @@
             difficultyComboBox.Name = "difficultyComboBox";
             difficultyComboBox.Size = new Size(151, 28);
             difficultyComboBox.TabIndex = 2;
+            difficultyComboBox.SelectedIndexChanged += difficultyComboBox_SelectedIndexChanged;
             // 
             // colorThemeTableLayoutPanel
             // 
@@ -244,6 +249,7 @@
             lightRadioButton.TabStop = true;
             lightRadioButton.Text = "Light";
             lightRadioButton.UseVisualStyleBackColor = true;
+            lightRadioButton.CheckedChanged += lightRadioButton_CheckedChanged;
             // 
             // darkRadioButton
             // 
@@ -257,6 +263,7 @@
             darkRadioButton.TabStop = true;
             darkRadioButton.Text = "Dark";
             darkRadioButton.UseVisualStyleBackColor = true;
+            darkRadioButton.CheckedChanged += darkRadioButton_CheckedChanged;
             // 
             // SettingsWindow
             // 
