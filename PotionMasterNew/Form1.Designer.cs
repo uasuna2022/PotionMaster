@@ -89,8 +89,9 @@
             // openSettingsToolStripMenuItem
             // 
             openSettingsToolStripMenuItem.Name = "openSettingsToolStripMenuItem";
-            openSettingsToolStripMenuItem.Size = new Size(194, 26);
+            openSettingsToolStripMenuItem.Size = new Size(224, 26);
             openSettingsToolStripMenuItem.Text = "Open Settings...";
+            openSettingsToolStripMenuItem.Click += openSettingsToolStripMenuItem_Click;
             // 
             // tableLayoutPanel
             // 

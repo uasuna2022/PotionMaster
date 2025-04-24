@@ -28,17 +28,7 @@ namespace PotionMasterNew
                 possibleColors.RemoveAt(index);
             }
 
-            vialControl1.MaxSegments = 4;
-            vialControl1.InitSegmentCount = 1;
-
-            vialControl2.MaxSegments = 4;
-            vialControl2.InitSegmentCount = 1;
-
-            vialControl3.MaxSegments = 4;
-            vialControl3.InitSegmentCount = 1;
-
-            vialControl4.MaxSegments = 4;
-            vialControl4.InitSegmentCount = 1;
+            
 
             for (int i = 1; i <= 9; i++)
             {
@@ -66,6 +56,12 @@ namespace PotionMasterNew
                         break;
                 }
             }
+        }
+
+        private void openSettingsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SettingsWindow settingsWindow = new SettingsWindow();
+            settingsWindow.Show();
         }
     }
 }
