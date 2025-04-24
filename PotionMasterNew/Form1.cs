@@ -137,6 +137,8 @@ namespace PotionMasterNew
                     allSegments.RemoveAt(randomIndex);
                 }
             }
+
+            ApplyTheme();
         }
 
         private void openSettingsToolStripMenuItem_Click(object sender, EventArgs e)
@@ -148,6 +150,11 @@ namespace PotionMasterNew
             {
                 MainForm_Load(sender, e);
             }
+
+            if (settingsWindow.ThemeApplied)
+            {
+                ApplyTheme();
+            }
         }
 
         private void MainForm_Resize(object sender, EventArgs e)
@@ -158,6 +165,48 @@ namespace PotionMasterNew
             }
 
             Invalidate();
+        }
+
+        private void ApplyTheme()
+        {
+            bool dark = Properties.Settings.Default.ColorTheme == "Dark";
+
+            Color backgroundColor = dark ? Color.FromArgb(60, 60, 60) : Color.White;
+
+            Color textColor = dark ? Color.White : Color.Black;
+
+            Color buttonColor = dark ? Color.FromArgb(100, 100, 100) : Color.FromKnownColor(KnownColor.Control);
+
+            Color accentColor = Color.Pink;
+
+            ApplyColours(this, backgroundColor, textColor, buttonColor);
+
+            menuStrip.BackColor = accentColor;
+            menuStrip.ForeColor = Color.Black;
+        }
+
+        private void ApplyColours(Control currentControl, Color backgroundColor, Color textColor, Color buttonColor)
+        {
+            switch (currentControl) // to be changed 
+            {
+                case Button:
+                case RadioButton:
+                    currentControl.BackColor = buttonColor;
+                    break;
+
+                case VialControl:
+                    currentControl.BackColor = backgroundColor;
+                    break;
+
+                default:
+                    currentControl.BackColor = backgroundColor;
+                    break;
+            }
+
+            currentControl.ForeColor = textColor;
+
+            foreach (Control child in currentControl.Controls)
+                ApplyColours(child, backgroundColor, textColor, buttonColor);
         }
     }
 }

@@ -31,6 +31,8 @@ namespace PotionMasterNew
             int segmentHeight = (this.Height - 2 * top_bottomMargin - (MaxSegments - 1) * segmentMargin) 
                 / MaxSegments;
 
+            Color colorToDrawRectangle = (this.ForeColor == Color.Black) ? Color.Black : Color.White;
+
             for (int i = 0; i < MaxSegments; i++)
             {
                 int segmentY = this.Height - (i + 1) * segmentHeight - 2 * top_bottomMargin - i * segmentMargin;
@@ -52,10 +54,10 @@ namespace PotionMasterNew
                     }
                 }
 
-                g.DrawRectangle(new Pen(Color.Black), segmentRectangle);
+                g.DrawRectangle(new Pen(colorToDrawRectangle), segmentRectangle);
             }
 
-            using (Pen pen = new Pen(Color.Black))
+            using (Pen pen = new Pen(colorToDrawRectangle))
             {
                 g.DrawRectangle(pen, 0, 0, this.Width - 1, this.Height - 1);
             }

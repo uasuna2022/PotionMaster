@@ -17,6 +17,7 @@ namespace PotionMasterNew
         public decimal MaxSegmetsCount { get; set; } = Properties.Settings.Default.SegmentsCount;
         public string ThemeColor { get; set; } = Properties.Settings.Default.ColorTheme;
         public bool ChangesApplied { get; set; } = false;
+        public bool ThemeApplied { get; set; } = false;
         public SettingsWindow()
         {
             InitializeComponent();
@@ -62,14 +63,18 @@ namespace PotionMasterNew
         {
             if (Difficulty != Properties.Settings.Default.Difficulty ||
                 VialsCount != Properties.Settings.Default.VialsCount ||
-                MaxSegmetsCount != Properties.Settings.Default.SegmentsCount ||
-                ThemeColor != Properties.Settings.Default.ColorTheme) 
+                MaxSegmetsCount != Properties.Settings.Default.SegmentsCount) 
             {
                 Properties.Settings.Default.Difficulty = Difficulty;
-                Properties.Settings.Default.ColorTheme = ThemeColor;
                 Properties.Settings.Default.VialsCount = VialsCount;
                 Properties.Settings.Default.SegmentsCount = MaxSegmetsCount;
                 ChangesApplied = true;
+            }
+
+            if (ThemeColor != Properties.Settings.Default.ColorTheme)
+            {
+                Properties.Settings.Default.ColorTheme = ThemeColor;
+                ThemeApplied = true;
             }
 
             this.Close();
