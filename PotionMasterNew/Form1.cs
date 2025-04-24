@@ -12,24 +12,24 @@ namespace PotionMasterNew
 
         private void BuildVialGrid(decimal vialCount, decimal maxSegments)
         {
-            tableLayoutPanel.SuspendLayout();
-            tableLayoutPanel.Controls.Clear();
-            tableLayoutPanel.ColumnStyles.Clear();
-            tableLayoutPanel.RowStyles.Clear();
+            gameFieldTableLayoutPanel.SuspendLayout();
+            gameFieldTableLayoutPanel.Controls.Clear();
+            gameFieldTableLayoutPanel.ColumnStyles.Clear();
+            gameFieldTableLayoutPanel.RowStyles.Clear();
             Vials.Clear();
 
             int numberOfColumns = Math.Min(7, (int)vialCount);
             int numberOfRows = ((int)vialCount % 7 == 0) ? (int)vialCount / 7 : (int)vialCount / 7 + 1;
-            tableLayoutPanel.ColumnCount = numberOfColumns;
-            tableLayoutPanel.RowCount = numberOfRows;
+            gameFieldTableLayoutPanel.ColumnCount = numberOfColumns;
+            gameFieldTableLayoutPanel.RowCount = numberOfRows;
 
             for (int i = 0; i < numberOfColumns; i++)
             {
-                tableLayoutPanel.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100f / numberOfColumns));
+                gameFieldTableLayoutPanel.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100f / numberOfColumns));
             }
             for (int i = 0; i < numberOfRows; i++)
             {
-                tableLayoutPanel.RowStyles.Add(new RowStyle(SizeType.Percent, 100f / numberOfRows));
+                gameFieldTableLayoutPanel.RowStyles.Add(new RowStyle(SizeType.Percent, 100f / numberOfRows));
             }
 
             for (int i = 0; i < vialCount; i++)
@@ -41,11 +41,11 @@ namespace PotionMasterNew
 
                 int row = i / numberOfColumns;
                 int col = i % numberOfColumns;
-                tableLayoutPanel.Controls.Add(newVial, col, row);
+                gameFieldTableLayoutPanel.Controls.Add(newVial, col, row);
                 Vials.Add(newVial);
             }
 
-            tableLayoutPanel.ResumeLayout();
+            gameFieldTableLayoutPanel.ResumeLayout();
         }
 
         private List<Color> CreateColors()
@@ -97,7 +97,7 @@ namespace PotionMasterNew
                 activeRandomColors.Add(possibleColors[index]);
                 possibleColors.RemoveAt(index);
             }
-            return activeRandomColors; 
+            return activeRandomColors;
         }
 
         private void MainForm_Load(object sender, EventArgs e)
@@ -110,7 +110,7 @@ namespace PotionMasterNew
 
             List<Color> activeRandomColors = CreateListOfNRandomColors(numberOfColors, CreateColors());
 
-            Random random = new Random();         
+            Random random = new Random();
 
             foreach (VialControl vial in Vials)
             {
@@ -187,26 +187,6 @@ namespace PotionMasterNew
                 StyleMenuItemRecursive(tsmi, accentColor, textColor);
 
         }
-        private void StyleMenuItemRecursive(ToolStripMenuItem item, Color backgroundColor, Color textColor)
-        {
-            item.BackColor = backgroundColor;
-            item.ForeColor = textColor;
-
-            item.DropDown.BackColor = backgroundColor;
-            item.DropDown.ForeColor = textColor;
-
-            if (item.DropDown is ToolStripDropDownMenu tsddm)
-            {
-                tsddm.ShowImageMargin = false;
-            }
-
-            foreach (ToolStripItem child in item.DropDownItems)
-            {
-                if (child is ToolStripMenuItem tsmi) StyleMenuItemRecursive(tsmi, backgroundColor, textColor);
-            }
-        }
-
-
         private void ApplyColours(Control currentControl, Color backgroundColor, Color textColor, Color buttonColor)
         {
             switch (currentControl) // to be changed 
@@ -229,6 +209,24 @@ namespace PotionMasterNew
 
             foreach (Control child in currentControl.Controls)
                 ApplyColours(child, backgroundColor, textColor, buttonColor);
+        }
+        private void StyleMenuItemRecursive(ToolStripMenuItem item, Color backgroundColor, Color textColor)
+        {
+            item.BackColor = backgroundColor;
+            item.ForeColor = textColor;
+
+            item.DropDown.BackColor = backgroundColor;
+            item.DropDown.ForeColor = textColor;
+
+            if (item.DropDown is ToolStripDropDownMenu tsddm)
+            {
+                tsddm.ShowImageMargin = false;
+            }
+
+            foreach (ToolStripItem child in item.DropDownItems)
+            {
+                if (child is ToolStripMenuItem tsmi) StyleMenuItemRecursive(tsmi, backgroundColor, textColor);
+            }
         }
     }
 }
