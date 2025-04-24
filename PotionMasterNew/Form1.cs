@@ -48,41 +48,93 @@ namespace PotionMasterNew
             tableLayoutPanel.ResumeLayout();
         }
 
-        private void MainForm_Load(object sender, EventArgs e)
+        private List<Color> CreateColors()
         {
-            BuildVialGrid(Properties.Settings.Default.VialsCount, Properties.Settings.Default.SegmentsCount);
-            
-            List<Color> possibleColors = new List<Color>();
-            possibleColors.Add(Color.Red);
-            possibleColors.Add(Color.Green);
-            possibleColors.Add(Color.Blue);
-            possibleColors.Add(Color.Orange);
-            possibleColors.Add(Color.Yellow);
-            possibleColors.Add(Color.Purple);
-            possibleColors.Add(Color.Black);
+            List<Color> possibleColors = new List<Color>
+            {
+                Color.Red,
+                Color.Blue,
+                Color.Green,
+                Color.Yellow,
+                Color.Orange,
+                Color.Purple,
+                Color.Pink,
+                Color.Brown,
+                Color.Cyan,
+                Color.Magenta,
+                Color.Gold,
+                Color.Silver,
+                Color.Lime,
+                Color.Indigo,
+                Color.Violet,
+                Color.Turquoise,
+                Color.Coral,
+                Color.Teal,
+                Color.Aqua,
+                Color.MediumSlateBlue,
+                Color.DarkOrange,
+                Color.SpringGreen,
+                Color.Salmon,
+                Color.MediumOrchid,
+                Color.Chocolate,
+                Color.RoyalBlue,
+                Color.Olive,
+                Color.Tomato,
+                Color.DarkSeaGreen,
+                Color.DeepPink
+            };
 
+            return possibleColors;
+        }
+
+        private List<Color> CreateListOfNRandomColors(int n, List<Color> possibleColors)
+        {
             List<Color> activeRandomColors = new List<Color>();
             Random random = new Random();
-            for (int i = 0; i <= 4; i++)
+            for (int i = 0; i < n; i++)
             {
                 int index = random.Next(0, possibleColors.Count);
                 activeRandomColors.Add(possibleColors[index]);
                 possibleColors.RemoveAt(index);
             }
+            return activeRandomColors; 
+        }
+
+        private void MainForm_Load(object sender, EventArgs e)
+        {
+            BuildVialGrid(Properties.Settings.Default.VialsCount, Properties.Settings.Default.SegmentsCount);
+
+            int numberOfColors = (int)Properties.Settings.Default.VialsCount - 3;
+            if (Properties.Settings.Default.Difficulty == "Medium") numberOfColors++;
+            else if (Properties.Settings.Default.Difficulty == "Hard") numberOfColors += 2;
+
+            List<Color> activeRandomColors = CreateListOfNRandomColors(numberOfColors, CreateColors());
+
+            Random random = new Random();         
 
             foreach (VialControl vial in Vials)
             {
                 vial.MaxSegments = (int)Properties.Settings.Default.SegmentsCount;
             }
 
-            for (int i = 1; i <= Properties.Settings.Default.VialsCount * 3; i++)
+            List<Color> allSegments = new List<Color>();
+
+            for (int i = 0; i < numberOfColors; i++)
             {
-                int numberOfVial = random.Next(0, Vials.Count);
-                int numberOfColor = random.Next(0, activeRandomColors.Count);
-                
-                if (Vials[numberOfVial].Segments.Count < Vials[numberOfVial].MaxSegments)
+                for (int j = 0; j < Properties.Settings.Default.SegmentsCount; j++)
                 {
-                    Vials[numberOfVial].Segments.Add(activeRandomColors[numberOfColor]);
+                    allSegments.Add(activeRandomColors[i]);
+                }
+            }
+
+            for (int i = 0; i < numberOfColors; i++)
+            {
+                for (int j = 0; j < Vials[i].MaxSegments; j++)
+                {
+                    int size = allSegments.Count;
+                    int randomIndex = random.Next(0, size);
+                    Vials[i].Segments.Add(allSegments[randomIndex]);
+                    allSegments.RemoveAt(randomIndex);
                 }
             }
         }
