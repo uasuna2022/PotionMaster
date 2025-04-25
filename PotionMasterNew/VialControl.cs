@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PotionMasterNew.CustomEvents;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -21,6 +22,8 @@ namespace PotionMasterNew
         {
             this.AllowDrop = true;
         }
+
+        public event EventHandler<MoveEventArgs>? MoveCompleted;
 
         protected override void OnPaint(PaintEventArgs e)
         {
@@ -96,10 +99,12 @@ namespace PotionMasterNew
                         ChosenVial.Segments.RemoveAt(ChosenVial.Segments.Count() - 1);
                         Segments.Add(topColor);
                     }
-                }
 
-                ChosenVial.Invalidate();
-                Invalidate();
+                    MoveCompleted?.Invoke(this, new MoveEventArgs(ChosenVial, this, count, topColor));
+
+                    ChosenVial.Invalidate();
+                    this.Invalidate();
+                }
             }
         }
 

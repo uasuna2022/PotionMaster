@@ -1,10 +1,18 @@
 using System.Collections.Specialized;
+using System.Windows.Forms;
+using PotionMasterNew.CustomEvents;
 
 namespace PotionMasterNew
 {
     public partial class MainForm : Form
     {
         public List<VialControl> Vials = new List<VialControl>();
+
+        public Stack<(int OutVial, int InVial, int numberOfSegments, Color color)> UndoStack = 
+            new Stack<(int, int, int, Color)>();
+        private int UndoStackCapacity;  
+        private int UndosLeft;
+
         public MainForm()
         {
             InitializeComponent();
@@ -43,10 +51,56 @@ namespace PotionMasterNew
                 int col = i % numberOfColumns;
                 gameFieldTableLayoutPanel.Controls.Add(newVial, col, row);
                 Vials.Add(newVial);
+
+                newVial.MoveCompleted += Vial_MoveCompletedExampleSubscriber;
             }
 
+            UndosLeft = SetUndoStackCapacity();
+            UndoStackCapacity = SetUndoStackCapacity();
+            undosLeftLabel.Text = $"(Left: {UndosLeft})";
+            
             gameFieldTableLayoutPanel.ResumeLayout();
         }
+
+        private int SetUndoStackCapacity()
+        {
+            int undoStackCapacity = 3;
+            switch (Properties.Settings.Default.Difficulty)
+            {
+                case "Hard":
+                    undoStackCapacity = 1;
+                    break;
+                case "Medium":
+                    undoStackCapacity = 2;
+                    break;
+                case "Easy":
+                    undoStackCapacity = 3;
+                    break;
+                default:
+                    undoStackCapacity = 3;
+                    break;
+            }
+
+            return undoStackCapacity;
+        }
+
+        // TODO:
+        // 1 - push current game state onto the undo stack
+        // 2 - update Undo button UI
+        // 3 - check for win condition
+        // 4 - update score and labels
+
+        private void Vial_MoveCompletedExampleSubscriber(object? sender, MoveEventArgs e)
+        {
+            MessageBox.Show($"Move: {e.SegmentsMoved} segment(s) of {e.ColorPoured} " +
+                $"from Vial Nr.{Vials.IndexOf(e.Source)} to Vial Nr.{Vials.IndexOf(e.Destination)}");
+        }
+
+        private void Vial_PushCurrentStateOntoTheUndoStack(object? sender, MoveEventArgs e)
+        {
+            
+        }
+
 
         private List<Color> CreateColors()
         {
@@ -189,7 +243,7 @@ namespace PotionMasterNew
         }
         private void ApplyColours(Control currentControl, Color backgroundColor, Color textColor, Color buttonColor)
         {
-            switch (currentControl) // to be changed 
+            switch (currentControl)
             {
                 case Button:
                 case RadioButton:
