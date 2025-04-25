@@ -13,6 +13,13 @@ namespace PotionMasterNew
             new Stack<(int, int, int, Color)>();
         private int UndoStackCapacity;
         private int UndosLeft;
+        private int CurrentScore = 0;
+        private int BestScore = 0;
+
+        private int GetUndoPenalty()
+        {
+            return 5 * UndoStackCapacity;
+        }
 
         public MainForm()
         {
@@ -53,8 +60,8 @@ namespace PotionMasterNew
                 gameFieldTableLayoutPanel.Controls.Add(newVial, col, row);
                 Vials.Add(newVial);
 
-                newVial.MoveCompleted += Vial_MoveCompletedExampleSubscriber;
                 newVial.MoveCompleted += Vial_PushCurrentStateOntoTheUndoStack;
+                newVial.MoveCompleted += Vial_CheckWinCondition;
             }
 
             UndosLeft = SetUndoStackCapacity();
@@ -62,6 +69,7 @@ namespace PotionMasterNew
             undosLeftLabel.Text = $"(Left: {UndosLeft})";
             UndoStack.Clear();
             undoButton.Enabled = UndoStack.Count > 0 && UndosLeft > 0;
+            nextPuzzleButton.Enabled = false;
 
             gameFieldTableLayoutPanel.ResumeLayout();
         }
@@ -87,20 +95,6 @@ namespace PotionMasterNew
 
             return undoStackCapacity;
         }
-
-        // TODO:
-        // 1 - push current game state onto the undo stack
-        // 2 - update Undo button UI
-        // 3 - check for win condition
-        // 4 - update score and labels
-
-        
-        private void Vial_MoveCompletedExampleSubscriber(object? sender, MoveEventArgs e)
-        {
-            MessageBox.Show($"Move: {e.SegmentsMoved} segment(s) of {e.ColorPoured} " +
-                $"from Vial Nr.{Vials.IndexOf(e.Source)} to Vial Nr.{Vials.IndexOf(e.Destination)}");
-        }
-        
 
         private void Vial_PushCurrentStateOntoTheUndoStack(object? sender, MoveEventArgs e)
         {
@@ -137,6 +131,33 @@ namespace PotionMasterNew
             }
 
             undoButton.Enabled = UndoStack.Count > 0 && UndosLeft > 0;
+        }
+
+        private void Vial_CheckWinCondition(object? sender, MoveEventArgs e)
+        {
+            foreach (VialControl vial in Vials)
+            {
+                if (vial.Segments.Count == 0) continue;
+                if (vial.Segments.Count != vial.MaxSegments)
+                    return;
+
+                Color vialColor = vial.Segments[0];
+                for (int i = 1; i < vial.Segments.Count; i++)
+                {
+                    if (vial.Segments[i] != vialColor) return;
+                }
+            }
+
+            nextPuzzleButton.Enabled = true;
+            undoButton.Enabled = false;
+            CurrentScore += (4 - UndoStackCapacity) * (int)Properties.Settings.Default.SegmentsCount *
+                ((int)Properties.Settings.Default.VialsCount - UndoStackCapacity);
+            if (CurrentScore > BestScore) BestScore = CurrentScore;
+
+            scoreLabel.Text = $"Score: {CurrentScore}";
+            bestScoreLabel.Text = $"Best Score: {BestScore}";
+            congratsLabel.Visible = true;
+
         }
 
         private List<Color> CreateColors()
@@ -229,6 +250,9 @@ namespace PotionMasterNew
                 }
             }
 
+            congratsLabel.Visible = false;
+            fileToolStripMenuItem.Enabled = true;
+
             ApplyTheme();
         }
 
@@ -240,6 +264,9 @@ namespace PotionMasterNew
             if (settingsWindow.ChangesApplied)
             {
                 MainForm_Load(sender, e);
+                CurrentScore = 0;
+                scoreLabel.Text = $"Score: {CurrentScore}";
+
             }
 
             if (settingsWindow.ThemeApplied)
@@ -283,7 +310,6 @@ namespace PotionMasterNew
             switch (currentControl)
             {
                 case Button:
-                case RadioButton:
                     currentControl.BackColor = buttonColor;
                     break;
 
@@ -338,15 +364,55 @@ namespace PotionMasterNew
             for (int i = 0; i < segmentsCount; i++)
             {
                 destination.Segments.RemoveAt(destination.Segments.Count - 1);
-                source.Segments.Add(color);     
+                source.Segments.Add(color);
             }
 
             source.Invalidate();
             destination.Invalidate();
 
+            CurrentScore -= GetUndoPenalty();
+            scoreLabel.Text = $"Score: {CurrentScore}";
+
             UndosLeft--;
             undosLeftLabel.Text = $"(Left: {UndosLeft})";
             undoButton.Enabled = UndosLeft > 0 && UndoStack.Count > 0;
+        }
+
+        private void newGameToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            CurrentScore = 0;
+            scoreLabel.Text = $"Score: {CurrentScore}";
+
+            MainForm_Load(sender, e);
+        }
+
+        private void exitGameToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (CurrentScore > BestScore)
+            {
+                BestScore = CurrentScore;
+                bestScoreLabel.Text = $"Best score: {BestScore}";
+            }
+
+            MessageBox.Show($"You ended the game!\n Game Score: {CurrentScore}\n Best Score: {BestScore}\n" +
+                $"Tap Settings -> Open Settings and choose your preferencies to start a new game!");
+            CurrentScore = 0;
+            fileToolStripMenuItem.Enabled = false;
+            foreach (VialControl vial in Vials)
+                vial.Enabled = false;
+            undoButton.Enabled = false;
+            nextPuzzleButton.Enabled = false;
+        }
+
+        private void nextPuzzleButton_Click(object sender, EventArgs e)
+        {
+            MainForm_Load(sender, e);
+        }
+
+        private void exitGameToolStripMenuItem_Click_1(object sender, EventArgs e)
+        {
+            MessageBox.Show($"Thanks for playing! Your best score is {BestScore}! See you later :))");
+            Close();
         }
     }
 }

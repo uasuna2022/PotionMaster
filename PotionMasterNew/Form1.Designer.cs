@@ -31,23 +31,26 @@
             menuStrip = new MenuStrip();
             fileToolStripMenuItem = new ToolStripMenuItem();
             newGameToolStripMenuItem = new ToolStripMenuItem();
-            surrenderToolStripMenuItem = new ToolStripMenuItem();
             exitGameToolStripMenuItem = new ToolStripMenuItem();
+            endGameToolStripMenuItem = new ToolStripMenuItem();
             settingsToolStripMenuItem = new ToolStripMenuItem();
             openSettingsToolStripMenuItem = new ToolStripMenuItem();
             gameFieldTableLayoutPanel = new TableLayoutPanel();
             mainTableLayoutPanel = new TableLayoutPanel();
             playerButtonsTableLayoutPanel = new TableLayoutPanel();
-            nextPuzzleButton = new Button();
             scoreUndoTableLayoutPanel = new TableLayoutPanel();
             undoButton = new Button();
             undosLeftLabel = new Label();
             scoreLabel = new Label();
             bestScoreLabel = new Label();
+            congratsNextPuzzleTableLayoutPanel = new TableLayoutPanel();
+            nextPuzzleButton = new Button();
+            congratsLabel = new Label();
             menuStrip.SuspendLayout();
             mainTableLayoutPanel.SuspendLayout();
             playerButtonsTableLayoutPanel.SuspendLayout();
             scoreUndoTableLayoutPanel.SuspendLayout();
+            congratsNextPuzzleTableLayoutPanel.SuspendLayout();
             SuspendLayout();
             // 
             // menuStrip
@@ -62,7 +65,7 @@
             // 
             // fileToolStripMenuItem
             // 
-            fileToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { newGameToolStripMenuItem, surrenderToolStripMenuItem, exitGameToolStripMenuItem });
+            fileToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { newGameToolStripMenuItem, exitGameToolStripMenuItem, endGameToolStripMenuItem });
             fileToolStripMenuItem.Name = "fileToolStripMenuItem";
             fileToolStripMenuItem.Size = new Size(46, 24);
             fileToolStripMenuItem.Text = "File";
@@ -70,20 +73,23 @@
             // newGameToolStripMenuItem
             // 
             newGameToolStripMenuItem.Name = "newGameToolStripMenuItem";
-            newGameToolStripMenuItem.Size = new Size(165, 26);
+            newGameToolStripMenuItem.Size = new Size(224, 26);
             newGameToolStripMenuItem.Text = "New Game";
-            // 
-            // surrenderToolStripMenuItem
-            // 
-            surrenderToolStripMenuItem.Name = "surrenderToolStripMenuItem";
-            surrenderToolStripMenuItem.Size = new Size(165, 26);
-            surrenderToolStripMenuItem.Text = "Surrender";
+            newGameToolStripMenuItem.Click += newGameToolStripMenuItem_Click;
             // 
             // exitGameToolStripMenuItem
             // 
             exitGameToolStripMenuItem.Name = "exitGameToolStripMenuItem";
-            exitGameToolStripMenuItem.Size = new Size(165, 26);
+            exitGameToolStripMenuItem.Size = new Size(224, 26);
             exitGameToolStripMenuItem.Text = "Exit Game";
+            exitGameToolStripMenuItem.Click += exitGameToolStripMenuItem_Click_1;
+            // 
+            // endGameToolStripMenuItem
+            // 
+            endGameToolStripMenuItem.Name = "endGameToolStripMenuItem";
+            endGameToolStripMenuItem.Size = new Size(224, 26);
+            endGameToolStripMenuItem.Text = "End Game";
+            endGameToolStripMenuItem.Click += exitGameToolStripMenuItem_Click;
             // 
             // settingsToolStripMenuItem
             // 
@@ -128,8 +134,8 @@
             playerButtonsTableLayoutPanel.ColumnCount = 2;
             playerButtonsTableLayoutPanel.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 40F));
             playerButtonsTableLayoutPanel.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 60F));
-            playerButtonsTableLayoutPanel.Controls.Add(nextPuzzleButton, 1, 0);
             playerButtonsTableLayoutPanel.Controls.Add(scoreUndoTableLayoutPanel, 0, 0);
+            playerButtonsTableLayoutPanel.Controls.Add(congratsNextPuzzleTableLayoutPanel, 1, 0);
             playerButtonsTableLayoutPanel.Dock = DockStyle.Fill;
             playerButtonsTableLayoutPanel.Location = new Point(3, 348);
             playerButtonsTableLayoutPanel.Name = "playerButtonsTableLayoutPanel";
@@ -137,17 +143,6 @@
             playerButtonsTableLayoutPanel.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
             playerButtonsTableLayoutPanel.Size = new Size(776, 74);
             playerButtonsTableLayoutPanel.TabIndex = 2;
-            // 
-            // nextPuzzleButton
-            // 
-            nextPuzzleButton.Anchor = AnchorStyles.Right;
-            nextPuzzleButton.Location = new Point(672, 22);
-            nextPuzzleButton.Margin = new Padding(3, 3, 10, 3);
-            nextPuzzleButton.Name = "nextPuzzleButton";
-            nextPuzzleButton.Size = new Size(94, 29);
-            nextPuzzleButton.TabIndex = 0;
-            nextPuzzleButton.Text = "Next Puzzle";
-            nextPuzzleButton.UseVisualStyleBackColor = true;
             // 
             // scoreUndoTableLayoutPanel
             // 
@@ -211,6 +206,44 @@
             bestScoreLabel.TabIndex = 3;
             bestScoreLabel.Text = "Best Score: 0";
             // 
+            // congratsNextPuzzleTableLayoutPanel
+            // 
+            congratsNextPuzzleTableLayoutPanel.ColumnCount = 2;
+            congratsNextPuzzleTableLayoutPanel.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 70F));
+            congratsNextPuzzleTableLayoutPanel.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 30F));
+            congratsNextPuzzleTableLayoutPanel.Controls.Add(nextPuzzleButton, 1, 0);
+            congratsNextPuzzleTableLayoutPanel.Controls.Add(congratsLabel, 0, 0);
+            congratsNextPuzzleTableLayoutPanel.Dock = DockStyle.Fill;
+            congratsNextPuzzleTableLayoutPanel.Location = new Point(313, 3);
+            congratsNextPuzzleTableLayoutPanel.Name = "congratsNextPuzzleTableLayoutPanel";
+            congratsNextPuzzleTableLayoutPanel.RowCount = 1;
+            congratsNextPuzzleTableLayoutPanel.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
+            congratsNextPuzzleTableLayoutPanel.Size = new Size(460, 68);
+            congratsNextPuzzleTableLayoutPanel.TabIndex = 2;
+            // 
+            // nextPuzzleButton
+            // 
+            nextPuzzleButton.Anchor = AnchorStyles.Right;
+            nextPuzzleButton.Location = new Point(356, 19);
+            nextPuzzleButton.Margin = new Padding(3, 3, 10, 3);
+            nextPuzzleButton.Name = "nextPuzzleButton";
+            nextPuzzleButton.Size = new Size(94, 29);
+            nextPuzzleButton.TabIndex = 1;
+            nextPuzzleButton.Text = "Next Puzzle";
+            nextPuzzleButton.UseVisualStyleBackColor = true;
+            nextPuzzleButton.Click += nextPuzzleButton_Click;
+            // 
+            // congratsLabel
+            // 
+            congratsLabel.Anchor = AnchorStyles.None;
+            congratsLabel.AutoSize = true;
+            congratsLabel.Font = new Font("Comic Sans MS", 12F, FontStyle.Bold | FontStyle.Italic, GraphicsUnit.Point);
+            congratsLabel.Location = new Point(79, 19);
+            congratsLabel.Name = "congratsLabel";
+            congratsLabel.Size = new Size(164, 29);
+            congratsLabel.TabIndex = 2;
+            congratsLabel.Text = "Congratulations!";
+            // 
             // MainForm
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
@@ -231,6 +264,8 @@
             playerButtonsTableLayoutPanel.ResumeLayout(false);
             scoreUndoTableLayoutPanel.ResumeLayout(false);
             scoreUndoTableLayoutPanel.PerformLayout();
+            congratsNextPuzzleTableLayoutPanel.ResumeLayout(false);
+            congratsNextPuzzleTableLayoutPanel.PerformLayout();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -240,18 +275,20 @@
         private MenuStrip menuStrip;
         private ToolStripMenuItem fileToolStripMenuItem;
         private ToolStripMenuItem newGameToolStripMenuItem;
-        private ToolStripMenuItem surrenderToolStripMenuItem;
         private ToolStripMenuItem exitGameToolStripMenuItem;
+        private ToolStripMenuItem endGameToolStripMenuItem;
         private ToolStripMenuItem settingsToolStripMenuItem;
         private ToolStripMenuItem openSettingsToolStripMenuItem;
         private TableLayoutPanel gameFieldTableLayoutPanel;
         private TableLayoutPanel mainTableLayoutPanel;
         private TableLayoutPanel playerButtonsTableLayoutPanel;
-        private Button nextPuzzleButton;
         private TableLayoutPanel scoreUndoTableLayoutPanel;
         private Button undoButton;
         private Label undosLeftLabel;
         private Label scoreLabel;
         private Label bestScoreLabel;
+        private TableLayoutPanel congratsNextPuzzleTableLayoutPanel;
+        private Button nextPuzzleButton;
+        private Label congratsLabel;
     }
 }
