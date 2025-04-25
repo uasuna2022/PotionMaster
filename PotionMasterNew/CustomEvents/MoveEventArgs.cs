@@ -13,10 +13,7 @@ namespace PotionMasterNew.CustomEvents
         public int SegmentsMoved { get; }
         public Color ColorPoured { get; }
 
-        public MoveEventArgs(VialControl source,
-                             VialControl destination,
-                             int segmentsMoved,
-                             Color colorPoured)
+        public MoveEventArgs(VialControl source, VialControl destination, int segmentsMoved, Color colorPoured)
         {
             Source = source;
             Destination = destination;

@@ -1,4 +1,5 @@
 using System.Collections.Specialized;
+using System.Net.Sockets;
 using System.Windows.Forms;
 using PotionMasterNew.CustomEvents;
 
@@ -8,9 +9,9 @@ namespace PotionMasterNew
     {
         public List<VialControl> Vials = new List<VialControl>();
 
-        public Stack<(int OutVial, int InVial, int numberOfSegments, Color color)> UndoStack = 
+        public Stack<(int outVialIndex, int inVialIndex, int numberOfSegments, Color color)> UndoStack =
             new Stack<(int, int, int, Color)>();
-        private int UndoStackCapacity;  
+        private int UndoStackCapacity;
         private int UndosLeft;
 
         public MainForm()
@@ -53,12 +54,15 @@ namespace PotionMasterNew
                 Vials.Add(newVial);
 
                 newVial.MoveCompleted += Vial_MoveCompletedExampleSubscriber;
+                newVial.MoveCompleted += Vial_PushCurrentStateOntoTheUndoStack;
             }
 
             UndosLeft = SetUndoStackCapacity();
             UndoStackCapacity = SetUndoStackCapacity();
             undosLeftLabel.Text = $"(Left: {UndosLeft})";
-            
+            UndoStack.Clear();
+            undoButton.Enabled = UndoStack.Count > 0 && UndosLeft > 0;
+
             gameFieldTableLayoutPanel.ResumeLayout();
         }
 
@@ -90,17 +94,50 @@ namespace PotionMasterNew
         // 3 - check for win condition
         // 4 - update score and labels
 
+        
         private void Vial_MoveCompletedExampleSubscriber(object? sender, MoveEventArgs e)
         {
             MessageBox.Show($"Move: {e.SegmentsMoved} segment(s) of {e.ColorPoured} " +
                 $"from Vial Nr.{Vials.IndexOf(e.Source)} to Vial Nr.{Vials.IndexOf(e.Destination)}");
         }
+        
 
         private void Vial_PushCurrentStateOntoTheUndoStack(object? sender, MoveEventArgs e)
         {
-            
-        }
+            int outIndex = Vials.IndexOf(e.Source);
+            int inIndex = Vials.IndexOf(e.Destination);
+            int segmentsMoved = e.SegmentsMoved;
+            Color colorMoved = e.ColorPoured;
 
+            if (UndoStack.Count < UndoStackCapacity)
+            {
+                UndoStack.Push((outIndex, inIndex, segmentsMoved, colorMoved));
+                undoButton.Enabled = UndoStack.Count > 0 && UndosLeft > 0;
+                return;
+            }
+
+            if (UndoStack.Count == UndoStackCapacity)
+            {
+                Stack<(int outVialIndex, int inVialIndex, int numberOfSegments, Color color)> tempStack =
+                    new Stack<(int outVialIndex, int inVialIndex, int numberOfSegments, Color color)>();
+                while (UndoStack.Count > 0)
+                {
+                    var element = UndoStack.Pop();
+                    tempStack.Push(element);
+                }
+                tempStack.Pop();
+                UndoStack.Clear();
+                while (tempStack.Count > 0)
+                {
+                    var element = tempStack.Pop();
+                    UndoStack.Push(element);
+                }
+
+                UndoStack.Push((outIndex, inIndex, segmentsMoved, colorMoved));
+            }
+
+            undoButton.Enabled = UndoStack.Count > 0 && UndosLeft > 0;
+        }
 
         private List<Color> CreateColors()
         {
@@ -281,6 +318,35 @@ namespace PotionMasterNew
             {
                 if (child is ToolStripMenuItem tsmi) StyleMenuItemRecursive(tsmi, backgroundColor, textColor);
             }
+        }
+
+        private void undoButton_Click(object sender, EventArgs e)
+        {
+            if (UndosLeft <= 0 || UndoStack.Count <= 0)
+                return;
+
+            var lastMove = UndoStack.Pop();
+
+            int outIndex = lastMove.outVialIndex;
+            int inIndex = lastMove.inVialIndex;
+            int segmentsCount = lastMove.numberOfSegments;
+            Color color = lastMove.color;
+
+            VialControl source = Vials[outIndex];
+            VialControl destination = Vials[inIndex];
+
+            for (int i = 0; i < segmentsCount; i++)
+            {
+                destination.Segments.RemoveAt(destination.Segments.Count - 1);
+                source.Segments.Add(color);     
+            }
+
+            source.Invalidate();
+            destination.Invalidate();
+
+            UndosLeft--;
+            undosLeftLabel.Text = $"(Left: {UndosLeft})";
+            undoButton.Enabled = UndosLeft > 0 && UndoStack.Count > 0;
         }
     }
 }

@@ -178,6 +178,7 @@
             undoButton.TabIndex = 0;
             undoButton.Text = "Undo";
             undoButton.UseVisualStyleBackColor = true;
+            undoButton.Click += undoButton_Click;
             // 
             // undosLeftLabel
             // 
