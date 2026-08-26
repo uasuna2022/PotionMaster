@@ -4,23 +4,15 @@
 ![.NET](https://img.shields.io/badge/-.NET-512BD4)
 ![WinForms](https://img.shields.io/badge/-WinForms-blue)
 
-A Windows Forms desktop application built with C# and .NET for interactive potion mixing, vial visualization, and liquid volume control.
+**Potion Master** is a **single-player WinForms puzzle game** where the goal is to **sort multi-colored liquids** across vials until each vial contains only a **single uniform color**.
+
+Players move liquid between vials by pouring the **top color segment** into another vial matching that same top color (or into an **empty helper vial**). The game features 3 difficulty levels (**Easy**, **Medium**, and **Hard** providing **3, 2, or 1 helper vials**), configurable **vial and segment counts**, and a **Light/Dark theme** setting.
 
 ---
 
 ## Demonstration
 
 ![Demonstration](demo.gif)
-
----
-
-## Key Features
-
-In this application, you can:
-
-* **Manage potion vials**: Interact with **custom vial controls** to view, fill, and pour liquids between containers.
-* **Mix ingredients**: Experiment with **color blending** and liquid volume dynamics in real time.
-* **Configure settings**: Customize **vial parameters** and preferences through the settings window.
 
 ---
 
